@@ -1,0 +1,1060 @@
+prim's algorithm :
+
+N = 5
+G = [[0, 19, 5, 0, 0],
+     [19, 0, 5, 9, 2],
+     [5, 5, 0, 1, 6],
+     [0, 9, 1, 0, 1],
+     [0, 2, 6, 1, 0]]
+c=[]
+for i in G:
+    for j in i:
+        c.append(j)
+cost=0
+selected_node = [0]*N
+no_edge = 0
+selected_node[0] = True
+print("Edge : Weight\n")
+while (no_edge < N - 1):
+    minimum =max(c)
+    a = 0
+    b = 0
+    for m in range(N):
+        if selected_node[m]:
+            for n in range(N):
+                if ((not selected_node[n])and G[m][n]):  
+                    # not in selected and there is an edge
+                    if minimum > G[m][n]:
+                        minimum = G[m][n]
+                        a = m
+                        b = n
+    print(str(a) + "-" + str(b) + ":" + str(G[a][b]))
+    cost+=G[a][b]
+    selected_node[b] = True
+    no_edge += 1
+print(cost)
+
+kruskal algorithm :
+
+def find(i):
+	while parent[i] != i:
+		i = parent[i]
+	return i
+def union(i, j):
+	a = find(i)
+	b = find(j)
+	parent[a] = b
+def kruskalMST(G):
+	cost = 0 
+	for i in range(n):
+		parent[i] = i
+	edge_count = 0
+	while edge_count < n - 1:
+		min = INF
+		a = -1
+		b = -1
+		for i in range(n):
+			for j in range(n):
+				if find(i) != find(j) and G[i][j] < min:
+					min = G[i][j]
+					a = i
+					b = j
+		union(a, b)
+		print('Edge {}:({}, {}) cost:{}'.format(edge_count, a, b, min))
+		edge_count += 1
+		cost += min
+	print("Minimum cost= {}".format(cost))
+n= 5
+parent = [i for i in range(n)]
+INF = float('inf')
+G = [[INF, 2, INF, 6, INF],
+		[2, INF, 3, 8, 5],
+		[INF, 3, INF, INF, 7],
+		[6, 8, INF, INF, 9],
+		[INF, 5, 7, 9, INF]]
+kruskalMST(G)
+
+square root: 
+
+import math
+def prime(val):
+    print(val)
+    for i in range(2,val):
+        if (val % i == 0):
+            return i
+    return 0
+def squareRoot(val):
+    i=prime(val)
+    if (i==0):
+        return math.sqrt(val)
+    else:
+        return math.sqrt(i)*squareRoot(val//i)
+
+a=int(input("Enter the number : "))
+pre=int(input("Enter the precision : "))
+ans=squareRoot(a)
+print(round(ans,pre))
+
+split positive and neg numbers:
+
+def sort(b,c):
+    for i in b:
+        if i<0 and i not in l:
+            l.append(i)
+        elif i>0 and i not in g:
+            g.append(i)
+    for j in c:
+        if j<0 and j not in l:
+            l.append(j)
+        elif j>0 and j not in g:
+            g.append(j)   
+def divide(a):
+    n=len(a)
+    rl=[]
+    ll=[]
+    if(n>1):
+        mid=n//2
+        rl=a[mid:]
+        ll=a[:mid]
+        divide(rl)
+        divide(ll)
+        sort(ll,rl)
+#a=list(eval(input("Enter the number : ")))
+a=[5,-1,3,-2]
+l=[]
+g=[]
+divide(a)
+print(l+g)
+
+
+largest int multiplication :
+
+
+def lmul(a,b):
+    if len(str(a)) ==1 and len(str(b))==1:
+        return a*b
+    else:
+        l=max(len(str(a)),len(str(b)))
+        split=int("1"+"0"*(l//2))
+        a1=a//split
+        a0=a%split
+        b1=b//split
+        b0=b%split
+        c2=lmul(a1,b1)
+        c0=lmul(a0,b0)
+        xc=lmul((a1+a0),(b1+b0))
+        return (c2*10**l)+((xc-c2-c0)*10**(l//2))+c0
+a=int(input("Enter the number : "))
+b=int(input("Enter the number : "))
+ans=lmul(a,b)
+print(ans)
+
+min and max of array (using divide and conquer ):
+
+l = list(eval(input("Enter the list:  ")))
+n = len(l)
+
+def split(L):
+    n = len(L)
+    M = []
+    N = []
+    if(n>1):
+        m = n//2
+        M = L[:m]
+        N = L[m:]
+        print(M)
+        print(N)
+        split(M)
+        split(N)
+        m1 = max(M)
+        m2 = min(N)
+        print(m1)
+        print(m2)
+split(l)
+
+def find(b,c):
+    i=j=0
+    p=len(b)
+    q=len(c)
+    while (i< p and j<q):
+        if (b[i] < c[j]):
+            min=b[i]
+            max=c[j]
+            i+=1
+        else:
+            max=b[i]
+            min=c[j]
+            j+=1
+    while i<p:
+        if b[i]<min :
+            min=b[i]
+        elif b[i] > max:
+            max=b[i]
+        else:
+            pass
+        i+=1
+    while j<q:
+        if c[j]<min :
+            min=c[j]
+        elif c[j] > max:
+            max=c[j]
+        else:
+            pass
+        j+=1
+    print(min,max)
+
+def split(l):
+    n=len(l)
+    rightlist=[]
+    leftlist=[]
+    if(n>1):
+        mid=n//2
+        rightlist=l[mid:]
+        leftlist=l[:mid]
+        split(rightlist)
+        split(leftlist)
+        find(leftlist,rightlist)
+
+l=list(eval(input("Enter the list : ")))
+#l=[12,15,189,2,56]
+split(l)
+
+ANOTHER PRGM FOR MIN AND MAX FOR ARRAY :
+
+def find(b,c):
+    i=j=0
+    p=len(b)
+    q=len(c)
+    while (i< p and j<q):
+        if (b[i] < c[j]):
+            min=b[i]
+            max=c[j]
+            i+=1
+        else:
+            max=b[i]
+            min=c[j]
+            j+=1
+    while i<p:
+        if b[i]<min :
+            min=b[i]
+        elif b[i] > max:
+            max=b[i]
+        else:
+            pass
+        i+=1
+    while j<q:
+        if c[j]<min :
+            min=c[j]
+        elif c[j] > max:
+            max=c[j]
+        else:
+            pass
+        j+=1
+    print(min,max)
+
+def split(l):
+    n=len(l)
+    rightlist=[]
+    leftlist=[]
+    if(n>1):
+        mid=n//2
+        rightlist=l[mid:]
+        leftlist=l[:mid]
+        split(rightlist)
+        split(leftlist)
+        find(leftlist,rightlist)
+l=list(eval(input("Enter the list : ")))
+#l=[12,15,189,2,56]
+split(l)                              
+
+SEGREGATE :
+
+l = list(eval(input("Enter the array of pos and neg numbers:  ")))
+n = len(l)
+#iterative
+
+def segregate(L, n):
+    pos = 0
+    neg = 0
+    for i in L:
+        if(i<0):
+            neg = neg + 1
+        else:
+            pos = pos + 1           
+    i = 0
+    j = i+1
+    while(i!=pos and j<n):
+        if (L[i] > 0):
+            i = i+1
+            j = i+1
+        else:
+            x = L[i]
+            L[i] = L[j]
+            L[j] = x
+            j = j+1
+            
+segregate(l, n)
+print(l)
+
+#recursive
+def shift(arr,i):
+    if(len(arr)-1!=i):
+        if(arr[i]<0 and arr[i]<arr[i+1]):
+            arr[i],arr[i+1]=arr[i+1],arr[i]
+        shift(arr,i+1)
+                   
+arr=list(eval(input("Enter the list:  ")))
+shift(arr,0)
+
+for i in range(0,len(arr)):
+    print(arr[i],end=" ")
+    
+    
+  SQUARE ROOT: 
+    
+    def squareroot(number, precision):
+	start = 0
+	end, ans = number, 1
+	while (start <= end):
+		mid = int((start + end) / 2)
+
+		if (mid * mid == number):
+			ans = mid
+			break
+
+		if (mid * mid < number):
+			start = mid + 1
+			ans = mid
+
+		else:
+			end = mid - 1
+
+	increment = 0.1
+	for i in range(0, precision):
+		while (ans * ans <= number):
+			ans += increment
+		ans = ans - increment
+		increment = increment / 10
+
+	return ans
+
+num = int(input("Enter the number:  "))
+pre = int(input("Enter the precision:  "))
+print(squareroot(num,pre))
+
+HARRY POTTER ??
+
+1.Hufflepuff: python
+//direct online
+N = 5
+G = [[0, 19, 5, 0, 0],
+     [19, 0, 5, 9, 2],
+     [5, 5, 0, 1, 6],
+     [0, 9, 1, 0, 1],
+     [0, 2, 6, 1, 0]]
+c=[]
+for i in G:
+    for j in i:
+        c.append(j)
+cost=0
+selected_node = [0]*N
+no_edge = 0
+selected_node[0] = True
+print("Edge : Weight\n")
+while (no_edge < N - 1):
+    minimum =max(c)
+    a = 0
+    b = 0
+    for m in range(N):
+        if selected_node[m]:
+            for n in range(N):
+                if ((not selected_node[n])and G[m][n]):  
+                    # not in selected and there is an edge
+                    if minimum > G[m][n]:
+                        minimum = G[m][n]
+                        a = m
+                        b = n
+    print(str(a) + "-" + str(b) + ":" + str(G[a][b]))
+    cost+=G[a][b]
+    selected_node[b] = True
+    no_edge += 1
+print(cost)
+
+2. large integer multiplication //python
+
+ def lmul(a,b):
+    if len(str(a)) ==1 and len(str(b))==1:
+        return a*b
+    else:
+        l=max(len(str(a)),len(str(b)))
+        split=int("1"+"0"*(l//2))
+        a1=a//split
+        a0=a%split
+        b1=b//split
+        b0=b%split
+        c2=lmul(a1,b1)
+        c0=lmul(a0,b0)
+        xc=lmul((a1+a0),(b1+b0))
+        return (c2*10**l)+((xc-c2-c0)*10**(l//2))+c0
+a=int(input("Enter the number : "))
+b=int(input("Enter the number : "))
+ans=lmul(a,b)
+print(ans)
+
+3. strassens multiplication //online python
+
+ import numpy as np
+def strassen_algorithm(x, y):
+    if x.size == 1 or y.size == 1:
+        return x * y
+    n = x.shape[0]
+    if n % 2 == 1:
+        x = np.pad(x, (0, 1), mode='constant')
+        y = np.pad(y, (0, 1), mode='constant')
+
+    m = int(np.ceil(n / 2))
+    a = x[: m, : m]
+    b = x[: m, m:]
+    c = x[m:, : m]
+    d = x[m:, m:]
+    e = y[: m, : m]
+    f = y[: m, m:]
+    g = y[m:, : m]
+    h = y[m:, m:]
+    p1 = strassen_algorithm(a, f - h)
+    p2 = strassen_algorithm(a + b, h)
+    p3 = strassen_algorithm(c + d, e)
+    p4 = strassen_algorithm(d, g - e)
+    p5 = strassen_algorithm(a + d, e + h)
+    p6 = strassen_algorithm(b - d, g + h)
+    p7 = strassen_algorithm(a - c, e + f)
+    result = np.zeros((2 * m, 2 * m), dtype=np.int32)
+    result[: m, : m] = p5 + p4 - p2 + p6
+    result[: m, m:] = p1 + p2
+    result[m:, : m] = p3 + p4
+    result[m:, m:] = p1 + p5 - p3 - p7
+    return result[: n, : n]
+if __name__ == "__main__":
+    x = np.array([[1, 0, 0], [0, 1, 0], [0, 0, 1]])
+    y = np.array([[-1, 0, 0], [0, -1, 0], [0, 0, -1]])
+    print('Matrix multiplication result: ')
+    print(strassen_algorithm(x, y))
+
+4. kruskals algorithm //cpp udemy
+#include <iostream>
+
+#define I 32767
+#define V 7
+#define E 9
+
+using namespace std;
+
+void PrintMCST(int T[][V-1], int A[][E]){
+    cout << "\nMinimum Cost Spanning Tree Edges\n" << endl;
+    for (int i {0}; i<V-1; i++){
+        cout << "[" << T[0][i] << "]-----[" << T[1][i] << "]" << endl;
+    }
+    cout << endl;
+}
+
+
+void Union(int u, int v, int s[]){
+    if (s[u] < s[v]){
+        s[u] += s[v];
+        s[v] = u;
+    } else {
+        s[v] += s[u];
+        s[u] = v;
+    }
+}
+
+int Find(int u, int s[]){
+    int x = u;
+    int v = 0;
+
+    while (s[x] > 0){
+        x = s[x];
+    }
+
+    while (u != x){
+        v = s[u];
+        s[u] = x;
+        u = v;
+    }
+    return x;
+}
+
+void KruskalsMCST(int A[3][9]){
+    int T[2][V-1];
+    int track[E] {0};
+    int set[V+1] = {-1, -1, -1, -1, -1, -1, -1, -1};
+
+    int i {0};
+    while (i < V-1){
+        int min = I;
+        int u {0};
+        int v {0};
+        int k {0};
+
+        for (int j {0}; j<E; j++){
+            if (track[j] == 0 && A[2][j] < min){
+                min = A[2][j];
+                u = A[0][j];
+                v = A[1][j];
+                k = j;
+            }
+        }
+
+        if (Find(u, set) != Find(v, set)){
+            T[0][i] = u;
+            T[1][i] = v;
+            Union(Find(u, set), Find(v, set), set);
+            i++;
+        }
+        track[k] = 1;
+    }
+
+    PrintMCST(T, A);
+}
+
+int main() {
+    int edges[3][9] = {{ 1, 1,  2,  2, 3,  4,  4,  5,  5},
+                       { 2, 6,  3,  7, 4,  5,  7,  6,  7},
+                       {25, 5, 12, 10, 8, 16, 14, 20, 18}};
+
+    KruskalsMCST(edges);
+
+    return 0;
+}
+
+
+5. prims algorithm //cpp udemy
+
+#include <iostream>
+#define V 8
+#define I 32767
+
+using namespace std;
+
+void PrintMST(int T[][V-2], int G[V][V]){
+    cout << "\nMinimum Spanning Tree Edges (w/ cost)\n" << endl;
+    int sum {0};
+    for (int i {0}; i<V-2; i++){
+        int c = G[T[0][i]][T[1][i]];
+        cout << "[" << T[0][i] << "]---[" << T[1][i] << "] cost: " << c << endl;
+        sum += c;
+    }
+    cout << endl;
+    cout << "Total cost of MST: " << sum << endl;
+}
+
+void PrimsMST(int G[V][V], int n){
+    int u;
+    int v;
+    int min {I};
+    int track [V];
+    int T[2][V-2] {0};
+
+    // Initial: Find min cost edge
+    for (int i {1}; i<V; i++){
+        track[i] = I;  // Initialize track array with INFINITY
+        for (int j {i}; j<V; j++){
+            if (G[i][j] < min){
+                min = G[i][j];
+                u = i;
+                v = j;
+            }
+        }
+    }
+    T[0][0] = u;
+    T[1][0] = v;
+    track[u] = track[v] = 0;
+
+    // Initialize track array to track min cost edges
+    for (int i {1}; i<V; i++){
+        if (track[i] != 0){
+            if (G[i][u] < G[i][v]){
+                track[i] = u;
+            } else {
+                track[i] = v;
+            }
+        }
+    }
+
+    // Repeat
+    for (int i {1}; i<n-1; i++){
+        int k;
+        min = I;
+        for (int j {1}; j<V; j++){
+            if (track[j] != 0 && G[j][track[j]] < min){
+                k = j;
+                min = G[j][track[j]];
+            }
+        }
+        T[0][i] = k;
+        T[1][i] = track[k];
+        track[k] = 0;
+
+        // Update track array to track min cost edges
+        for (int j {1}; j<V; j++){
+            if (track[j] != 0 && G[j][k] < G[j][track[j]]){
+                track[j] = k;
+            }
+        }
+    }
+    PrintMST(T, G);
+}
+
+int main() {
+
+    int cost [V][V] {
+            {I, I, I, I, I, I, I, I},
+            {I, I, 25, I, I, I, 5, I},
+            {I, 25, I, 12, I, I, I, 10},
+            {I, I, 12, I, 8, I, I, I},
+            {I, I, I, 8, I, 16, I, 14},
+            {I, I, I, I, 16, I, 20, 18},
+            {I, 5, I, I, I, 20, I, I},
+            {I, I, 10, I, 14, 18, I, I},
+    };
+
+    int n = sizeof(cost[0])/sizeof(cost[0][0]) - 1;
+
+    PrimsMST(cost, n);
+
+    return 0;
+}
+
+
+6. kruskals python online
+
+# Python program for Kruskal's algorithm to find
+# Minimum Spanning Tree of a given connected,
+# undirected and weighted graph
+
+# Class to represent a graph
+
+
+class Graph:
+
+def __init__(self, vertices):
+self.V = vertices # No. of vertices
+self.graph = []
+# to store graph
+
+# function to add an edge to graph
+def addEdge(self, u, v, w):
+self.graph.append([u, v, w])
+
+# A utility function to find set of an element i
+# (truly uses path compression technique)
+def find(self, parent, i):
+if parent[i] != i:
+# Reassignment of node's parent to root node as
+# path compression requires
+parent[i] = self.find(parent, parent[i])
+return parent[i]
+
+# A function that does union of two sets of x and y
+# (uses union by rank)
+def union(self, parent, rank, x, y):
+
+# Attach smaller rank tree under root of
+# high rank tree (Union by Rank)
+if rank[x] < rank[y]:
+parent[x] = y
+elif rank[x] > rank[y]:
+parent[y] = x
+
+# If ranks are same, then make one as root
+# and increment its rank by one
+else:
+parent[y] = x
+rank[x] += 1
+
+# The main function to construct MST using Kruskal's
+# algorithm
+def KruskalMST(self):
+
+result = [] # This will store the resultant MST
+
+# An index variable, used for sorted edges
+i = 0
+
+# An index variable, used for result[]
+e = 0
+
+# Step 1: Sort all the edges in
+# non-decreasing order of their
+# weight. If we are not allowed to change the
+# given graph, we can create a copy of graph
+self.graph = sorted(self.graph,
+key=lambda item: item[2])
+
+parent = []
+rank = []
+
+# Create V subsets with single elements
+for node in range(self.V):
+parent.append(node)
+rank.append(0)
+
+# Number of edges to be taken is equal to V-1
+while e < self.V - 1:
+
+# Step 2: Pick the smallest edge and increment
+# the index for next iteration
+u, v, w = self.graph[i]
+i = i + 1
+x = self.find(parent, u)
+y = self.find(parent, v)
+
+# If including this edge doesn't
+# cause cycle, then include it in result
+# and increment the index of result
+# for next edge
+if x != y:
+e = e + 1
+result.append([u, v, w])
+self.union(parent, rank, x, y)
+# Else discard the edge
+
+minimumCost = 0
+print("Edges in the constructed MST")
+for u, v, weight in result:
+minimumCost += weight
+print("%d -- %d == %d" % (u, v, weight))
+print("Minimum Spanning Tree", minimumCost)
+
+
+# Driver's code
+if __name__ == '__main__':
+g = Graph(4)
+g.addEdge(0, 1, 10)
+g.addEdge(0, 2, 6)
+g.addEdge(0, 3, 5)
+g.addEdge(1, 3, 15)
+g.addEdge(2, 3, 4)
+
+# Function call
+g.KruskalMST()
+
+# This code is contributed by Neelam Yadav
+# Improved by James Gra├ºa-Jones
+
+7. huffman friend python
+
+label = ['a','b','c','d','e']
+frequency = [0.1,0.1,0.2,0.2,0.4]
+dic2 = {'a' : 0.1,'b':0.1,'c':0.2,'d':0.2,'e':0.4}
+dic = {}
+for i in label:
+    dic[i] = ""
+for i in range(len(frequency)):
+    for j in range(i+1,len(frequency)):
+        if frequency[i]>frequency[j]:
+            frequency[i],frequency[j] = frequency[j],frequency[i]
+            label[i],label[j] = label[j],label[i]
+while(len(frequency)!=1):
+    c1 = list(label.pop(0))
+    for i in c1:
+        dic[i] = '0'+dic[i]
+    c2 = list(label.pop(0))
+    for i in c2:
+        dic[i] = '1' + dic[i]
+    n1 = frequency.pop(0)
+    n2 = frequency.pop(0)  
+    frequency.insert(0,n1+n2)
+    label.insert(0,c1+c2)
+    for i in range(len(frequency)):
+        for j in range(i+1,len(frequency)):
+            if frequency[i]>frequency[j]:
+                frequency[i],frequency[j] = frequency[j],frequency[i]
+                label[i],label[j] = label[j],label[i]
+avg = 0
+for i in dic:
+    print(i,' : ',dic[i])
+    avg += dic2[i]*len(dic[i])
+print('The Average Huffman Code Length is : ',avg)  
+
+8. toplogical sorting
+
+from collections import defaultdict
+class Graph:
+def __init__(self, vertices):
+self.graph = defaultdict(list) 
+self.V = vertices # No. of vertices
+
+def addEdge(self, u, v):
+self.graph[u].append(v)
+
+def topologicalSortUtil(self, v, visited, stack):
+
+visited[v] = True
+
+for i in self.graph[v]:
+if visited[i] == False:
+self.topologicalSortUtil(i, visited, stack)
+
+stack.append(v)
+
+
+def topologicalSort(self):
+
+visited = [False]*self.V
+stack = []
+
+for i in range(self.V):
+if visited[i] == False:
+self.topologicalSortUtil(i, visited, stack)
+
+print(stack[::-1]) # return list in reverse order
+
+
+# Driver Code
+if __name__ == '__main__':
+g = Graph(6)
+g.addEdge(0,1)
+g.addEdge(0,5)
+g.addEdge(1,2)
+g.addEdge(1,3)
+g.addEdge(2,3)
+g.addEdge(4,3)
+g.addEdge(4,5)
+
+
+print("Following is a Topological Sort of the given graph")
+
+g.topologicalSort()
+
+9.prims python online
+
+INF = 9999999
+V = 6
+Label = ['0','1','2','3','4','5']
+G = [[0, 1, 9, 0, 0, 0 ],
+     [1, 0, 8, 2,7,0],
+     [9, 8, 0, 3,0,0],
+     [0, 2, 3, 0,4,6],
+     [0,7,0,4,0,5],
+     [0,0,0,6,5,0]
+     ]
+selected = [0, 0, 0, 0,0,0]
+no_edge = 0
+
+selected[0] = True
+print("Edge : Weight\n")
+while (no_edge < V - 1):
+    minimum = INF
+    x = 0
+    y = 0
+    for i in range(V):
+        if selected[i]:
+            for j in range(V):
+                if ((not selected[j]) and G[i][j]):  
+                    # not in selected and there is an edge
+                    if minimum > G[i][j]:
+                        minimum = G[i][j]
+                        x = i
+                        y = j
+    print(str(Label[x]) + "-" + str(Label[y]) + ":" + str(G[x][y]))
+    selected[y] = True
+    no_edge += 1
+    
+    
+    PS3_P2:CPP
+    
+    #include<iostream>
+#include<stdlib.h>
+#include<cmath>
+using namespace std;
+void minimum(int a[],int b[],int p,int q,int r);
+void Partition(int a[],int b[],int p,int r)
+{
+    int q;
+    if(p>=r)
+    {
+        return;
+    }
+    q=(p+((r-p)>>1));
+    Partition(a,b,p,q);
+    Partition(a,b,q+1,r);
+    minimum(a,b,p,q,r);
+}
+void minimum(int a[],int b[],int p,int q,int r)
+{
+    int maxx;
+    int k=p;
+    for (int i = p; i <= q; i++)
+    {
+            b[k++] = a[i];
+    }
+    for (int i = q+1; i <= r; i++)
+    {
+            b[k++] = a[i];
+    }
+    maxx=max(b[p],b[r]);
+    cout<<"The maximum number is:"<<maxx;
+}
+int main()
+{
+    int a[]={2345,4567};
+    int n1,n2;
+    int b[3];
+    n1=int(log10(a[0])+1);
+    n2=int(log10(a[1])+1);
+    if(n1==n2)
+    {
+        Partition(a,b,0,1);
+    }
+
+}
+
+PS3_P1_DIVIDE:
+
+#include<iostream>
+#include<stdlib.h>
+#include<cmath>
+using namespace std;
+void Merge(int a[],int b[],int p,int q,int r);
+void Partition(int a[],int b[],int p,int r,int n)
+{
+    int q;
+    if(p>=r)
+    {
+        return;
+    }
+    q=(p+((r-p)>>1));
+    Partition(a,b,p,q,n);
+    Partition(a,b,q+1,r,n);
+    Merge(a,b,p,q,r);
+}
+void Merge(int arr[], int aux[], int low, int mid, int high)
+{
+    int k = low;
+    for (int i = low; i <= mid; i++)
+    {
+        if (arr[i] > 0)
+        {
+            aux[k++] = arr[i];
+        }
+    }
+    for (int j = mid + 1; j <= high; j++)
+    {
+        if (arr[j] > 0)
+        {
+            aux[k++] = arr[j];
+        }
+    }
+    for (int i = low; i <= mid; i++)
+    {
+        if (arr[i] <= 0)
+        {
+            aux[k++] = arr[i];
+        }
+    }
+    for (int j = mid + 1; j <= high; j++)
+    {
+        if (arr[j] <= 0)
+        {
+            aux[k++] = arr[j];
+        }
+    }
+    for (int i = low; i <= high; i++)
+    {
+        arr[i] = aux[i];
+    }
+}
+int main()
+{
+    int a[]={2,-7,5,-4,8,9,-2,-1};
+    int n;
+    n=sizeof(a)/sizeof(a[0]);
+    int b[n];
+    Partition(a,b,0,n-1,n);
+    cout<<"The sorted array is:";
+    for(int i=0;i<n;i++)
+    {
+        cout<<" "<<a[i];
+    }
+}
+
+PS3_P3:
+#include<iostream>
+using namespace std;
+void squareroot(int num,int pes)
+{
+    int mid,u=0,v=num;
+    float root;
+    while(u<=v)
+    {
+        int s;
+        mid=(u+v)/2;
+        s=mid*mid;
+        if(s==num)
+        {
+            root=num;
+        }
+        if(s<num)
+        {
+          u=mid+1;
+          root=mid;
+        }
+        else
+        {
+            v=mid-1;
+        }
+    }
+    float dec=0.1;
+    for(int i=0;i<pes;i++)
+    {
+        while(root*root<=num)
+        {
+            root+=dec;
+        }
+        root=root-dec;
+        dec=dec/10;
+    }
+    cout<<root;
+}
+int main()
+{
+   squareroot(30,2);
+}
+
+PS3_P1:
+
+#include<iostream>
+#include<stdlib.h>
+using namespace std;
+int main()
+{
+    int a[]={2,-7,5,-4,8,9,-2,-1};
+    int n;
+    n=sizeof(a)/sizeof(a[0]);
+    int b[n],k=0;
+    for(int i=0;i<n;i++)
+    {
+        if(a[i]>0)
+        {
+            b[k]=a[i];
+            k++;
+        }
+    }
+      for(int i=0;i<n;i++)
+    {
+        if(a[i]<0)
+        {
+            b[k]=a[i];
+            k++;
+        }
+    }
+    for(int i=0;i<n;i++)
+    {
+        cout<<b[i]<<" ";
+    }
+    return 0;
+}
+
+
+    
